@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    var data = [1, 2, 3, 4]
+    var fuc1 = function (val) {
+        console.log(arguments);
+        console.log(typeof (arguments)); //object
+        console.log(arguments.length);//传入参数的个数
+
+        var maxNum = arguments[0];
+        for (var i = 1; i < arguments.length; i++) {
+            maxNum = maxNum > arguments[i] ? maxNum :arguments[i];
+        }
+        return maxNum;
+    }
+    // console.log(fuc1(1, 2, 8, 6 , 6)); // 8
+    console.log(fuc1(...data)); // 4
+</script>
+</html>
