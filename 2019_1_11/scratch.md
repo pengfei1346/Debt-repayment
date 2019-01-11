@@ -1,9 +1,8 @@
 # 20190111
 
-##移动端手势滑动效果
+## 移动端手势滑动效果
 
 ### 01 原生js实现
-### 02 touch.js
 
 常用的三个：(只针对触摸屏幕)
 1. touchstart
@@ -152,8 +151,17 @@ window.onload = function() {
 
 ````
 
+### 02 使用插件
+    插件太多了，能实现效果就行，用的时候再看文档
+    touch.js
+    官网地址；https://www.awesomes.cn/repo/Clouda-team/touchjs
 
+    AlloyTouch
+    github地址 ：https://github.com/AlloyTeam/AlloyTouch
 
+    touch-ripple 触摸涟漪反馈效果
+    介绍说可以兼容移动端，还没试
+    github：https://github.com/qgh810/touch-ripple
 
 
 
