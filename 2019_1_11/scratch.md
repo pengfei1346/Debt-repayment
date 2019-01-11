@@ -35,15 +35,16 @@
 * target：触摸的DOM节点目标。
 
 使用:
+//EventUtil 跨浏览器对象，主要就是兼容浏览器的dom（只是兼容大部分浏览器），需要自己定义，，单浏览器也可以不用
 ```javascript
-    EventUtil.addHandler(div,"touchstart",function(event){
+    EventUtil.addHandler(document,"touchstart",function(event){
         div.innerHTML=event.touches[0].clientX+','+event.touches[0].clientY;
     });
-    EventUtil.addHandler(div,"touchmove",function(event){
+    EventUtil.addHandler(document,"touchmove",function(event){
         event.preventDefault();
         div.innerHTML=event.touches[0].clientX;
     });
-    EventUtil.addHandler(div,"touchend",function(event){
+    EventUtil.addHandler(document,"touchend",function(event){
         div.innerHTML=event.changedTouches[0].clientY;
     });
 ```
@@ -156,7 +157,8 @@ window.onload = function() {
     touch.js  官网很久没更新了
     官网地址；https://www.awesomes.cn/repo/Clouda-team/touchjs
     github: https://github.com/Clouda-team/touchjs
-    有一篇参考的文章：http://www.cnblogs.com/moqiutao/p/6364463.html
+    有一篇参考的文章：http://www.cnblogs.com/moqiutao/p/6364463.html,
+                 https://blog.csdn.net/wangjiaohome/article/details/49364177
 
     最好用的zepto
     官网：https://www.awesomes.cn/repo/madrobby/zepto
