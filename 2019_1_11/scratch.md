@@ -153,8 +153,14 @@ window.onload = function() {
 
 ### 02 使用插件
     插件太多了，能实现效果就行，用的时候再看文档
-    touch.js
+    touch.js  官网很久没更新了
     官网地址；https://www.awesomes.cn/repo/Clouda-team/touchjs
+    github: https://github.com/Clouda-team/touchjs
+    有一篇参考的文章：http://www.cnblogs.com/moqiutao/p/6364463.html
+
+    最好用的zepto
+    官网：https://www.awesomes.cn/repo/madrobby/zepto
+    github： https://github.com/madrobby/zepto
 
     AlloyTouch
     github地址 ：https://github.com/AlloyTeam/AlloyTouch
