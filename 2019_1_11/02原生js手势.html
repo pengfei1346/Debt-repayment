@@ -3,9 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        body{
+            font-size: 48px;
+        }
+    </style>
 </head>
 <body>
-    <div style="width: 998px;">6666</div>
+    <div style="width: 120%;" id="scroll">撑个页面</div>
+    <br>
+    <br>
+    <br>
     <div id="test"></div>
 </body>
 <script>
@@ -106,15 +114,31 @@
         }
     }
     var test = document.getElementById('test')
-    EventUtil.addHandler(document,"touchstart",function(event){
-        test.innerHTML=event.touches[0].clientX+','+event.touches[0].clientY;
+    // EventUtil.addHandler(document,"touchstart",function(event){
+    //     test.innerHTML=event.touches[0].clientX+','+event.touches[0].clientY;
+    // });
+    // EventUtil.addHandler(document,"touchmove",function(event){
+    //     event.preventDefault();
+    //     test.innerHTML=event.touches[0].clientX;
+    // });
+    // EventUtil.addHandler(document,"touchend",function(event){
+    //     test.innerHTML=event.changedTouches[0].clientY;
+    // });
+
+    document.addEventListener("touchstart",function(event){
+        test.innerHTML='X:'+ event.touches[0].clientX+','+ '<br/>'+ 'Y:'+ event.touches[0].clientY;
     });
-    EventUtil.addHandler(document,"touchmove",function(event){
-        event.preventDefault();
-        test.innerHTML=event.touches[0].clientX;
+    document.addEventListener("touchmove",function(event){
+        if(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i.test(navigator.userAgent)) {
+            console.log("wap");
+            event.preventDefault();
+        } else {
+            console.log("pc");
+        }
+        test.innerHTML= 'X:'+ event.touches[0].clientX;
     });
-    EventUtil.addHandler(document,"touchend",function(event){
-        test.innerHTML=event.changedTouches[0].clientY;
+    document.addEventListener("touchend",function(event){
+        test.innerHTML= 'Y:'+ event.changedTouches[0].clientY;
     });
 
 </script>
