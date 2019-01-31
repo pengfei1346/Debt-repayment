@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>会议室时间控件选择封装</title>
+</head>
+<style>
+    .change{
+        width:700px;
+        margin:0 auto;
+    }
+    .change span{
+        font-size: 14px;
+        color: #666;
+    }
+    .container{
+        width:700px;
+        margin:0 auto;
+    }
+    .ul{
+        width:100%;
+        border:1px solid #666;
+        padding:0;
+        margin:0;
+        background: #B1DFDA;
+        border-radius: 5px;
+    }
+    .ul:after{
+        content:'';
+        display: block;
+        clear: both;
+    }
+    .ul li{
+        list-style: none;
+        float:left;
+        font-size: 14px;
+        color: #666;
+        height:20px;
+        line-height: 20px;
+        cursor: pointer;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        -khtml-user-select: none;
+        user-select: none;
+        border-right:1px solid #666;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        text-align: center;
+        position: relative;
+    }
+    .ul li:nth-child(1){
+        border-top-left-radius:5px;
+        border-bottom-left-radius:5px
+    }
+    .ul li a{
+        display:inline-block;
+        position: absolute;
+        left:0;
+        top:0;
+        z-index:9;
+    }
+    .nums{
+        background: #a1bcb9;
+        color: #f5f5f5!important;
+        font-weight: bold;
+    }
+    .possession{
+        background:#FF9F6E;
+        border-right:none;
+    }
+    .service{
+        background:#B2402A;
+        color: #fff!important;
+    }
+    .ul li:last-child{
+        border-right:none;
+    }
+    p{
+        width:100%;
+        text-align: center;
+        color:red;
+    }
+</style>
+<body>
+<div class="change">
+    <span>选择时间：</span>
+    <span class="choose_time"></span>
+</div>
+<div class="container"></div>
+<p>注释：假设结束时间是到09：15，但用户选择要从09：15开始选择，所以9：15是可以被选择的</p>
+</body>
+<script src="jquery-2.0.3.min.js"></script>
+<script>
+    function time(startTime,endTime,dom,fix_data){
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.dom = dom;
+        this.fix_data = fix_data;
+        // 初始化时间条；
+        this.body = function(){
+            // 时间节点构成
+            var totalM = (parseInt(endTime)- parseInt(startTime))*60; // 总分钟数
+            var liLength = totalM/15; // 算出是由多少个15分钟
+            var ulNode = $('<ul class="ul"></ul>'); // 创建父元素
+            // 构建分钟节点
+            var li = '';
+            var num = 8;
+            var minutes = 0;
+            for(var i = 0; i<liLength; i++){
+                if(minutes%60 == 0){
+                    li += '<li class="nums" type="'+num+':'+0+''+0+'">'+num+'</li>';
+                    num += 1;
+                    minutes = 0;
+                }else{
+                    li += '<li type="'+(num-1)+':'+minutes+'" ><span style="transform:scale(0.6);display:inline-block;">'+minutes+'</span></li>';
+                }
+                minutes+=15;
+
+            }
+            ulNode.append(li); // 把li插入到ul里
+            $('.container').html(ulNode);
+            var ulw = $('.ul').innerWidth();
+            $('.ul li').css('width',ulw/liLength + 'px');
+            // 渲染时间节点到时间轴上
+            $(dom).each(function(i,v){
+                var stime = new Date(v.startTime); //数据开始时间
+                var etime = new Date(v.endTime); //数据结束时间
+                var init_time = new Date(fix_data);
+                var sminute = parseInt((stime.getTime() - init_time.getTime()) / parseInt(1000*60)); // 将开始时间转化成分钟数
+                var eminute = parseInt((etime.getTime() - init_time.getTime()) / parseInt(1000*60)); // 将结束时间转化成分钟数
+                // 转化成分钟数一定是15的倍数，用总分钟数除以15就可以知道他是由几个15构成,他所对应的下标
+                var st = sminute/15;
+                var et = eminute/15;
+                $('.ul li').each(function(i,v){
+                    if(i>=st && i<=et){
+                        // 已经被预约的时间段;
+                        $(this).addClass('possession');
+                    }
+                    if( i== st){
+                        $(this).removeClass('possession').addClass('d');
+                    }
+                    if( i == et){
+                        $(this).removeClass('possession').addClass('d');
+                    }
+                    if(i == '39'){
+                        $(this).addClass('radius');
+                    }
+                });
+            });
+            // 拖拽选择时间
+            var index = 0;
+            $('.ul li').each(function(i,v){
+                // 鼠标按下选择时间开始点
+                $(this).unbind('mousedown').on('mousedown',function(){
+                    // $('.ul li').unbind('mouseup',fn3);
+                    if($(this).hasClass('possession')){
+                        alert('当前时间段已经被预约!请重新预约');
+                        $('.choose_time').html();
+                        $('.container ul li').removeClass('service');
+                    }else{
+                        $(this).addClass('service').siblings().removeClass('service');
+
+                    }
+                });
+                // 鼠标拖拽过程
+                // $(this).unbind('mousemove').bind('mousemove',fn2 = function(){
+                // 	if($('.container .ul li').hasClass('service')){
+                // 		$('.container .ul li').eq($(this).index()).addClass('service');
+                // 	}else{
+                // 		return false;
+                // 	};
+                // });
+                // 鼠标抬起选择时间结束点
+                $(this).unbind('mouseup').on('mouseup',fn3 = function(){
+                    index++;
+                    if($(this).hasClass('possession')){
+                        alert('当前时间段已经被预约!请重新预约');
+                        $('.choose_time').html();
+                        $('.container ul li').removeClass('service');
+                    }else{
+                        $(this).addClass('service');
+                        var sr = [];
+                        $('.service').each(function(i,v){
+                            sr.push($(v).attr('type'));
+                        });
+                        if(sr.length == 1){
+                            sr[1] = '请选择结束时间哦~'
+                        }
+                        $('.choose_time').html(sr[0]+ ' --- '+sr[1]);
+                    }
+                    var dist = []; //声明数组用来存放鼠标按下、抬起。所对应的节点
+                    $('.ul li').each(function(i,v){
+                        if($(v).hasClass('service')){
+                            dist.push($(this).index());
+                            for(var j = dist[0]+1;j<dist[1]; j++){
+                                $('.container .ul li').eq(j).addClass('service');
+                            }
+                        }
+                    });
+                    // 判断预约时间段里是否有已经被预约的时间段
+                    $('.service').each(function(i,v){
+                        if($(v).hasClass('possession')){
+                            alert('您所选时间段有时间被预约过！请重新选择时间');
+                            $('.container ul li').removeClass('service');
+                            $('.choose_time').html();
+                            return false;
+                        }
+                    });
+                });
+            });
+            // 选择预约时间事件监听
+            $('.ul li').on({
+                mousedown:function(){
+                    console.log($(this).offset().left);
+                },
+                mousemove:function(){
+                },
+                mouseup:function(){
+                    // console.log($('.service').size());
+                    // document.body.addEventListener('mousemove', function (event) {
+                    //     event.preventDefault();
+                    //     console.log(1);
+                    // },false);
+                }
+            })
+        }
+    };
+    var dom = [
+        {"startTime":"2018-10-10 08:00","endTime":"2018-10-10 09:15"},
+        {"startTime":"2018-10-10 12:15","endTime":"2018-10-10 15:00"}
+    ]
+    // fix_data的时间应为时间条的开始时间;
+    var fix_data = "2018-10-10 08:00";
+    var time = new time('8','18',dom,fix_data);
+    time.body();
+</script>
+</html>
