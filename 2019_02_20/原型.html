@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+
+</div>
+</body>
+<script>
+    //如果你的微信版本是6.1以下，微信会调用系统自带的浏览器去加载渲染网页；
+    //
+    // 如果你的微信版本是6.1以上，并且手机装有QQ浏览器，微信就会调用QQ浏览器的X5内核去加载渲染网页。
+    // function Parent(age) {
+    //     this.age = age;
+    // }
+    // var a = new Parent(50)
+    // console.log(a.constructor=== Parent );
+    // console.log(a.constructor=== Function );
+    //
+    // // 普通函数
+    // function parent2(age) {
+    //     this.age = age;
+    // }
+    // var p2 = parent2(50);
+    // console.log(p2);//undefined
+    // console.log(p2.constructor); //报错Cannot read property 'constructor' of undefined
+
+    // 普通函数
+    // function parent3(age) {
+    //
+    //     return [age]
+    //
+    //     // return {
+    //     //     age: age
+    //     // }
+    // }
+    // var p3 = parent3(50);
+    // console.log(p3.constructor);//  Object   / true
+    // //值和该函数return 出来的数据类型相同
+
+
+    // /*Symbol*/
+    //    // new Symbol(123);  //Symbol is not a constructor(构造器)
+    // //
+    // var sym = Symbol(123);
+    // // console.log( sym );
+    // Symbol(123)
+    // console.log(sym.__proto__);
+    // console.log( sym.constructor );
+    // // ƒ Symbol() { [native code] }
+    // //这里的 constructor 属性来自Symbol 原型上的，即 Symbol.prototype.constructor 返回创建实例原型的函数， 默认为 Symbol 函数。
+
+    // constructor是否只读
+    //     引用数据类型可以修改，基本数据类型只读  原因；
+    // function Foo() {
+    //     this.value = 42;
+    // }
+    // Foo.prototype = {
+    //     method: function() {}
+    // };
+    //
+    // function Bar() {}
+    //
+    // // 设置 Bar 的 prototype 属性为 Foo 的实例对象
+    // Bar.prototype = new Foo();
+    // Bar.prototype.foo = 'Hello World';
+    //
+    // Bar.prototype.constructor === Object;
+    // // true
+    //
+    // // 修正 Bar.prototype.constructor 为 Bar 本身
+    // Bar.prototype.constructor = Bar;
+    //
+    // var test = new Bar() // 创建 Bar 的一个新实例
+    // console.log(test);
+    //
+    // function Type() { };
+    // var	types = [1, "muyiy", true, Symbol(123)];
+    //
+    // for(var i = 0; i < types.length; i++) {
+    //     types[i].constructor = Type;
+    //     types[i] = [ types[i].constructor, types[i] instanceof Type, types[i].toString() ];
+    // };
+    //
+    // console.log( types.join("\n") );
+    // // function Number() { [native code] }, false, 1
+    // // function String() { [native code] }, false, muyiy
+    // // function Boolean() { [native code] }, false, true
+    // // function Symbol() { [native code] }, false, Symbol(123)
+
+
+    // 为什么呢？因为创建他们的是只读的原生构造函数（native constructors），这个例子也说明了依赖一个对象的 constructor 属性并不安全。
+
+    /********* 模拟实现new********/
+    function create() {
+        // 1、创建一个空的对象
+        var obj = new Object(),
+        // 2、获得构造函数，同时删除 arguments 中第一个参数
+        Con = [].shift.call(arguments);
+        // 3、链接到原型，obj 可以访问构造函数原型中的属性
+        Object.setPrototypeOf(obj, Con.prototype);
+        // 4、绑定 this 实现继承，obj 可以访问到构造函数中的属性
+        var ret = Con.apply(obj, arguments);
+        // 5、优先返回构造函数返回的对象
+        return ret instanceof Object ? ret : obj;
+    }
+    create()
+
+
+</script>
+</html>
