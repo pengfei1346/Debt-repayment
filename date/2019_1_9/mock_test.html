@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script src="../common/js/mock.js"></script>
+<script src="../common/js/vue.axios.min.js"></script>
+<script>
+    var arr=[
+        {name:'fei',age:20,id:1},
+        {name:'liang',age:30,id:2},
+        {name:'jun',age:40,id:3},
+        {name:'ming',age:50,id:4}
+    ]
+
+    Mock.mock(RegExp('/test/delete' + ".*"),'post',function(options){
+        var id = parseInt(options.body.split("=")[1])//获取删除的id
+        var index;
+        for(var i in arr){
+            if(arr[i].id===id){//在数组arr里找到这个id
+                index=i
+                break;
+            }
+        }
+        arr.splice(index,1)//把这个id对应的对象从数组里删除
+        return arr;//返回这个数组,也就是返回处理后的假数据
+    })
+
+    axios.post('/test/delete',{id:"1"}).then(res => {
+        console.log(res)
+    })
+</script>
+</html>

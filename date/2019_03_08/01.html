@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<textarea id="textbox">abc中国efg</textarea>
+<script type="text/javascript">
+    window.onload = function () {
+        var textbox = document.getElementById('textbox');
+        textbox.setSelectionRange(5, 2);
+        console.log(textbox.selectionStart);    // 2
+        console.log(textbox.selectionEnd);      // 2
+    };
+</script>
+<!--<textarea id="textbox">abc中国efg</textarea>-->
+<!--<script type="text/javascript">-->
+    <!--window.onload = function () {-->
+        <!--var textbox = document.getElementById('textbox');-->
+        <!--textbox.setSelectionRange(9, 9);-->
+        <!--console.log(textbox.selectionStart);    // 8-->
+        <!--console.log(textbox.selectionEnd);      // 8-->
+    <!--};-->
+<!--</script>-->
+</body>
+</html>

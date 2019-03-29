@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    // var data = [1, 2, 3, 4]
+    // var fuc1 = function (val) {
+    //     console.log(arguments);
+    //     console.log(typeof (arguments)); //object
+    //     console.log(arguments.length);//传入参数的个数
+    //
+    //     var maxNum = arguments[0];
+    //     for (var i = 1; i < arguments.length; i++) {
+    //         maxNum = maxNum > arguments[i] ? maxNum :arguments[i];
+    //     }
+    //     return maxNum;
+    // }
+    // // console.log(fuc1(1, 2, 8, 6 , 6)); // 8
+    // console.log(fuc1(...data)); // 4
+
+    /***** 阶乘函数****/
+    // function factorial(num){
+    //     if(num <=1){
+    //         return 1;
+    //     }else{
+    //         return num* factorial(num-1);
+    //     }
+    // }
+    // console.log(factorial(5));//120
+
+    /****解耦****/
+    // function factorial(num){
+    //     if(num <=1){
+    //         return 1;
+    //     }else{
+    //         return num* arguments.callee(num-1);
+    //     }
+    // }
+    // console.log(factorial(5));//120
+    // 但在严格模式下，访问这个属性会抛出TypeError错误
+    // function factorial(num){
+    //     'use strict';
+    //     if(num <=1){
+    //         return 1;
+    //     }else{
+    //         return num* arguments.callee(num-1);
+    //     }
+    // }
+    // //报错了
+    // //TypeError: 'caller', 'callee', and 'arguments' properties may not be accessed on strict mode functions or the arguments objects for calls to them
+    // console.log(factorial(5));
+
+    /****** 具名函数*****/
+    var factorial = function fn(num){
+        if(num <=1){
+            return 1;
+        }else{
+            return num*fn(num-1);
+        }
+    };
+    console.log(factorial(5));//120
+
+</script>
+</html>
